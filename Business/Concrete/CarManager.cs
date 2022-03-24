@@ -19,7 +19,17 @@ namespace Business.Concrete
 
         public void Add(Car car)
         {
-            _carDal.Add(car);
+            if (car.Description.Length >= 2 && car.DailyPrice > 0)
+            {
+                //car.Id sıfır yaptık çünkü veritabanında car.Id otomatik artırılarak ayarlandı. Eğer kullanıcı id girmeye çalışırsa onunla eklemeye çalışmasın,
+                //bilgisayarın kendi yaptığı id ile ekleme yapılsın.
+                car.Id = 0;
+                _carDal.Add(car);
+            }
+            else
+            {
+                Console.WriteLine("Araba eklenemedi!");
+            }
         }
 
         public void Delete(Car car)
@@ -33,9 +43,19 @@ namespace Business.Concrete
             return _carDal.GetAll();
         }
 
-        public void GetById(Car car)
+        public List<Car> GetById(Car car)
         {
-            _carDal.GetById(car);
+            return _carDal.GetAll(p => p.Id == car.Id);
+        }
+
+        public List<Car> GetCarsByBrandId(int id)
+        {
+            return _carDal.GetAll(p => p.BrandId == id);
+        }
+
+        public List<Car> GetCarsByColorId(int id)
+        {
+            return _carDal.GetAll(p => p.ColorId == id);
         }
 
         public void Update(Car car)

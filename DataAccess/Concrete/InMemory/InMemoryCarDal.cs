@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,8 +32,8 @@ namespace DataAccess.Concrete.InMemory
 
         public void Delete(Car car)
         {
-            Car CarToDelete = _cars.SingleOrDefault(c => c.Id == car.Id);
-            _cars.Remove(CarToDelete);
+            Car carToDelete = _cars.SingleOrDefault(c => c.Id == car.Id);
+            _cars.Remove(carToDelete);
         }
 
         public List<Car> GetAll()
@@ -40,35 +41,40 @@ namespace DataAccess.Concrete.InMemory
             return _cars;
         }
 
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public void GetById(Car car)
         {
-            Car CarToBrought = _cars.SingleOrDefault(c => c.Id == car.Id);
+            Car carToBrought = _cars.SingleOrDefault(c => c.Id == car.Id);
 
-            if (CarToBrought == null)
+            if (carToBrought == null)
             {
                 Console.WriteLine("Seçtiğiniz id'ye göre araba bulunamadı.");
             }
             else
             {
-                Console.WriteLine("{0} isimli araba getirildi.", CarToBrought.Description);
+                Console.WriteLine("{0} isimli araba getirildi.", carToBrought.Description);
             }
         }
 
         public void Update(Car car)
         {
-            Car CarToUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
+            Car carToUpdate = _cars.SingleOrDefault(c => c.Id == car.Id);
 
-            if (CarToUpdate == null)
+            if (carToUpdate == null)
             {
                 Console.WriteLine("Güncellemek istediğiniz araba bulunamadı!");
             }
             else
             {
-                CarToUpdate.BrandId = car.BrandId;
-                CarToUpdate.ColorId = car.ColorId;
-                CarToUpdate.ModelYear = car.ModelYear;
-                CarToUpdate.DailyPrice = car.DailyPrice;
-                CarToUpdate.Description = car.Description;
+                carToUpdate.BrandId = car.BrandId;
+                carToUpdate.ColorId = car.ColorId;
+                carToUpdate.ModelYear = car.ModelYear;
+                carToUpdate.DailyPrice = car.DailyPrice;
+                carToUpdate.Description = car.Description;
             }
 
         }
