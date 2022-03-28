@@ -25,16 +25,11 @@ foreach (var car in carManager.GetAll())
     Console.WriteLine(car.Description);
 }
 
-carManager.Add(car1);
-carManager.Update(car2);
-carManager.Delete(new Car { Id = 19 });
 
-foreach (var car in carManager.GetCarsByBrandId(13))
+Console.WriteLine(carManager.GetById(11).Description);
+
+foreach (var car in carManager.GetAll())
 {
     Console.WriteLine(car.Description);
 }
 
-foreach (var car in carManager.GetCarsByColorId(2))
-{
-    Console.WriteLine(car.Description);
-}
