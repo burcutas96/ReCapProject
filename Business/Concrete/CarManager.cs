@@ -45,17 +45,17 @@ namespace Business.Concrete
 
         public Car Get(Car car)
         {
-            return _carDal.Get(p=>p.Id == car.Id);
+            return _carDal.Get(c => c.Id == car.Id);
         }
 
         public List<Car> GetCarsByBrandId(int id)
         {
-            return _carDal.GetAll(p => p.BrandId == id);
+            return _carDal.GetAll(c => c.BrandId == id);
         }
 
         public List<Car> GetCarsByColorId(int id)
         {
-            return _carDal.GetAll(p => p.ColorId == id);
+            return _carDal.GetAll(c => c.ColorId == id);
         }
 
         public void Update(Car car)
@@ -65,7 +65,7 @@ namespace Business.Concrete
 
         public Car GetById(int id)
         {
-            return _carDal.Get(p => p.Id == id);
+            return _carDal.Get(c => c.Id == id);
         }
     }
 }
