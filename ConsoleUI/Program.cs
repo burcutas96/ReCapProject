@@ -7,6 +7,11 @@ using Entities.Concrete;
 //BrandManager();
 //CarManager();
 
+CarManager carManager = new CarManager(new EfCarDal());
+foreach (var car in carManager.GetCarDetails())
+{
+    Console.WriteLine(car.CarName + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
+}
 
 static void ColorManager()
 {
@@ -86,7 +91,7 @@ static void CarManager()
     car2.ColorId = 2;
     car2.ModelYear = "2022";
     car2.DailyPrice = 900;
-    car2.Description = "Togg";
+    car2.Description = "Bmw M4";
 
     CarManager carManager = new CarManager(new EfCarDal());
     foreach (var car in carManager.GetAll())
