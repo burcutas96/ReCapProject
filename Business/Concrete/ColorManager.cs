@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
@@ -18,35 +20,53 @@ namespace Business.Concrete
             _colorDal = colorDal;
         }
 
-        public void Add(Color color)
+        public IResult Add(Color color)
         {
-            color.Id = 0;
-            _colorDal.Add(color);
+            if(color.Name.Length > 2)
+            {
+                color.Id = 0;
+                _colorDal.Add(color);
+                return new SuccesResult(Messages.ColorAdded);
+            }
+            else
+            {
+                return new ErrorResult(Messages.ColorNameİnvalid);
+            }
         }
 
-        public void Delete(Color color)
+        public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
+            return new SuccesResult(Messages.ColorDeleted);
         }
 
-        public Color Get(Color color)
+        public IDataResult<Color> Get(Color color)
         {
-            return _colorDal.Get(c => c.Id == color.Id);
+            return new SuccesDataResult<Color>(_colorDal.Get(c => c.Id == color.Id));
         }
 
-        public List<Color> GetAll()
+        public IDataResult<List<Color>> GetAll()
         {
-            return _colorDal.GetAll();
+            if(DateTime.Now.Hour == 19)
+            {
+                return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
+            }
+            else
+            {
+                return new SuccesDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
+            }
+            
         }
 
-        public Color GetById(int id)
+        public IDataResult<Color> GetById(int id)
         {
-            return _colorDal.Get(c => c.Id == id);
+            return new SuccesDataResult<Color>(_colorDal.Get(c => c.Id == id));
         }
 
-        public void Update(Color color)
+        public IResult Update(Color color)
         {
             _colorDal.Update(color);
+            return new SuccesResult(Messages.CarUpdated);
         }
     }
 }

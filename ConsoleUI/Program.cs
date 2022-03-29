@@ -8,15 +8,16 @@ using Entities.Concrete;
 //CarManager();
 
 CarManager carManager = new CarManager(new EfCarDal());
-foreach (var car in carManager.GetCarDetails())
+foreach (var car in carManager.GetCarDetails().Data)
 {
     Console.WriteLine(car.CarName + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
 }
 
+
 static void ColorManager()
 {
     ColorManager colorManager = new ColorManager(new EfColorDal());
-    foreach (var color in colorManager.GetAll())
+    foreach (var color in colorManager.GetAll().Data)
     {
         Console.WriteLine(color.Name);
     }
@@ -33,9 +34,9 @@ static void ColorManager()
     colorManager.Delete(color1);
     colorManager.Update(color2);
 
-    Console.WriteLine(colorManager.GetById(3).Name);
+    Console.WriteLine(colorManager.GetById(3).Data.Name);
 
-    foreach (var color in colorManager.GetAll())
+    foreach (var color in colorManager.GetAll().Data)
     {
         Console.WriteLine(color.Name);
     }
@@ -47,7 +48,7 @@ static void ColorManager()
 static void BrandManager()
 {
     BrandManager brandManager = new BrandManager(new EfBrandDal());
-    foreach (var brand in brandManager.GetAll())
+    foreach (var brand in brandManager.GetAll().Data)
     {
         Console.WriteLine(brand.Name);
     }
@@ -58,15 +59,15 @@ static void BrandManager()
 
     Brand brand2 = new Brand();
     brand2.Id = 15;
-    brand2.Name = "Dacia";
+    brand2.Name = "Honda";
 
     brandManager.Add(brand1);
     brandManager.Delete(brand1);
     brandManager.Update(brand2);
 
-    Console.WriteLine(brandManager.GetById(8).Name);
+    Console.WriteLine(brandManager.GetById(8).Data.Name);
 
-    foreach (var brand in brandManager.GetAll())
+    foreach (var brand in brandManager.GetAll().Data)
     {
         Console.WriteLine(brand.Name);
     }
@@ -77,7 +78,6 @@ static void BrandManager()
 static void CarManager()
 {
     Car car1 = new Car();
-    //car.Id'yi veritabanı ayarladığı için ben ayrıca id yazmadım. 
     car1.Id = 35;
     car1.BrandId = 20;
     car1.ColorId = 3;
@@ -91,21 +91,21 @@ static void CarManager()
     car2.ColorId = 2;
     car2.ModelYear = "2022";
     car2.DailyPrice = 900;
-    car2.Description = "Bmw M4";
+    car2.Description = "Togg";
 
     CarManager carManager = new CarManager(new EfCarDal());
-    foreach (var car in carManager.GetAll())
+    foreach (var car in carManager.GetAll().Data)
     {
         Console.WriteLine(car.Description);
     }
 
-    Console.WriteLine(carManager.GetById(10).Description);
+    Console.WriteLine(carManager.GetById(9).Data.Description);
 
     carManager.Add(car1);
     carManager.Delete(car1);
     carManager.Update(car2);
 
-    foreach (var car in carManager.GetAll())
+    foreach (var car in carManager.GetAll().Data)
     {
         Console.WriteLine(car.Description);
     }
