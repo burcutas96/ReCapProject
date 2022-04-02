@@ -3,23 +3,82 @@ using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 
+
+RentalManager rentalManager = new RentalManager(new EfRentalDal());
+//rentalManager.Delete(new Rental { Id = 10 });
+//rentalManager.Delete(new Rental { Id = 11 });
+//rentalManager.Delete(new Rental { Id = 14 });
+//rentalManager.Delete(new Rental { Id = 21 });
+
+//GetCarDetail();
 //ColorManager();
 //BrandManager();
 //CarManager();
 
-CarManager carManager = new CarManager(new EfCarDal());
-var result = carManager.GetCarDetails();
 
-if (result.Success)
+//var sonuc = rentalManager.Add(new Rental
+//{
+//    CarId = 21,
+//    CustomerId = 25,
+//    RentDate = new DateTime(2022, 3, 20),
+//    ReturnDate = new DateTime(2022, 3, 23)
+//});
+
+//var sonuc1 = rentalManager.Add(new Rental
+//{
+//    CarId = 21,
+//    CustomerId = 16,
+//    RentDate = new DateTime(2022, 3, 21),
+//    ReturnDate = new DateTime(2022, 3, 26)
+//});
+
+var sonuc2 = rentalManager.Add(new Rental
 {
-    foreach (var car in carManager.GetCarDetails().Data)
+    CarId = 21,
+    CustomerId = 18,
+    RentDate = new DateTime(2022, 3, 17),
+    ReturnDate = new DateTime(2022, 3, 19)
+});
+
+//var sonuc3 = rentalManager.Add(new Rental
+//{
+//    CarId = 21,
+//    CustomerId = 17,
+//    RentDate = new DateTime(2022, 4, 1),
+//    ReturnDate = new DateTime(2022, 4, 5)
+//});
+
+//var sonuc4 = rentalManager.Add(new Rental
+//{
+//    CarId = 21,
+//    CustomerId = 12,
+//    RentDate = DateTime.Now
+//});
+
+//Console.WriteLine(sonuc.Message);
+//Console.WriteLine(sonuc1.Message);
+Console.WriteLine(sonuc2.Message);
+//Console.WriteLine(sonuc3.Message);
+//Console.WriteLine(sonuc4.Message);
+
+
+
+static void GetCarDetail() 
+{
+    CarManager carManager = new CarManager(new EfCarDal());
+    var result = carManager.GetCarDetails();
+
+    if (result.Success)
     {
-        Console.WriteLine(car.CarName + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
+        foreach (var car in carManager.GetCarDetails().Data)
+        {
+            Console.WriteLine(car.CarName + " / " + car.BrandName + " / " + car.ColorName + " / " + car.DailyPrice);
+        }
     }
-}
-else
-{
-    Console.WriteLine(result.Message);
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
 }
 
 
