@@ -3,63 +3,135 @@ using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
 
-
-RentalManager rentalManager = new RentalManager(new EfRentalDal());
-//rentalManager.Delete(new Rental { Id = 10 });
-//rentalManager.Delete(new Rental { Id = 11 });
-//rentalManager.Delete(new Rental { Id = 14 });
-//rentalManager.Delete(new Rental { Id = 21 });
-
+//RentalManager();
+//UserManager();
+//CustomerManager();
 //GetCarDetail();
 //ColorManager();
 //BrandManager();
 //CarManager();
 
 
-//var sonuc = rentalManager.Add(new Rental
-//{
-//    CarId = 21,
-//    CustomerId = 25,
-//    RentDate = new DateTime(2022, 3, 20),
-//    ReturnDate = new DateTime(2022, 3, 23)
-//});
-
-//var sonuc1 = rentalManager.Add(new Rental
-//{
-//    CarId = 21,
-//    CustomerId = 16,
-//    RentDate = new DateTime(2022, 3, 21),
-//    ReturnDate = new DateTime(2022, 3, 26)
-//});
-
-var sonuc2 = rentalManager.Add(new Rental
+static void RentalManager()
 {
-    CarId = 21,
-    CustomerId = 18,
-    RentDate = new DateTime(2022, 3, 17),
-    ReturnDate = new DateTime(2022, 3, 19)
-});
+    RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
-//var sonuc3 = rentalManager.Add(new Rental
-//{
-//    CarId = 21,
-//    CustomerId = 17,
-//    RentDate = new DateTime(2022, 4, 1),
-//    ReturnDate = new DateTime(2022, 4, 5)
-//});
+    Rental rental1 = new Rental();
+    rental1.CarId = 21;
+    rental1.CustomerId = 25;
+    rental1.RentDate = new DateTime(2022, 4, 18);
+    rental1.ReturnDate = new DateTime(2022, 4, 20);
 
-//var sonuc4 = rentalManager.Add(new Rental
-//{
-//    CarId = 21,
-//    CustomerId = 12,
-//    RentDate = DateTime.Now
-//});
+    Rental rental2 = new Rental();
+    rental2.Id = 2;
+    rental2.CarId = 21;
+    rental2.CustomerId = 25;
+    rental2.RentDate = new DateTime(2022, 6, 12);
+    rental2.ReturnDate = new DateTime(2022, 6, 14);
 
-//Console.WriteLine(sonuc.Message);
-//Console.WriteLine(sonuc1.Message);
-Console.WriteLine(sonuc2.Message);
-//Console.WriteLine(sonuc3.Message);
-//Console.WriteLine(sonuc4.Message);
+    Console.WriteLine(rentalManager.Add(rental1).Message);
+    Console.WriteLine(rentalManager.Delete(rental1).Message);
+    Console.WriteLine(rentalManager.Update(rental2).Message);
+
+    Console.WriteLine("Kiralanma tarihi: " + rentalManager.GetById(6).Data.RentDate);
+
+    var result = rentalManager.GetAll();
+
+    if (result.Success)
+    {
+        foreach (var rental in result.Data)
+        {
+            Console.WriteLine(rental.RentDate.ToString() + " " + rental.ReturnDate.ToString());
+        }
+    }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
+
+}
+
+
+
+
+static void UserManager()
+{
+    UserManager userManager = new UserManager(new EfUserDal());
+
+    User user1 = new User();
+    user1.FirstName = "Sema";
+    user1.LastName = "Güneş";
+    user1.Email = "semagunes@gmail.com";
+    user1.Password = "32659phr3";
+
+    User user2 = new User();
+    user2.Id = 17;
+    user2.FirstName = "Sezer";
+    user2.LastName = "Kanmaz";
+    user2.Email = "duygudeniz@hotmail.com";
+    user2.Password = "96e74mhgd5a";
+
+    userManager.Add(user1);
+    userManager.Delete(user1);
+    userManager.Update(user2);
+
+    Console.WriteLine(userManager.GetById(8).Data.FirstName + " " + userManager.GetById(8).Data.LastName); ;
+
+    var result = userManager.GetAll();
+
+    if (result.Success)
+    {
+        foreach (var user in result.Data)
+        {
+            Console.WriteLine(user.FirstName + " " + user.LastName);
+        }
+    }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
+
+}
+
+
+
+
+
+static void CustomerManager()
+{
+    CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+    Customer customer1 = new Customer();
+    customer1.UserId = 6;
+    customer1.CompanyName = "Bor";
+
+    Customer customer2 = new Customer();
+    customer2.Id = 15;
+    customer2.UserId = 27;
+    customer2.CompanyName = "Elna";
+
+    customerManager.Add(customer1);
+    customerManager.Delete(customer1);
+    customerManager.Update(customer2);
+
+    var result = customerManager.GetAll();
+
+    if (result.Success)
+    {
+        foreach (var customer in result.Data)
+        {
+            Console.WriteLine(customer.CompanyName);
+        }
+    }
+    else
+    {
+        Console.WriteLine(result.Message);
+    }
+
+    Console.WriteLine(customerManager.GetById(12).Data.CompanyName);
+
+}
+
 
 
 

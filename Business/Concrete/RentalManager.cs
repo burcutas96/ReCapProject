@@ -23,9 +23,9 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.GetAll(r => r.CarId == rental.CarId && (r.ReturnDate == null || r.ReturnDate > DateTime.Now || (r.RentDate <= rental.RentDate && r.ReturnDate <= rental.RentDate))).OrderByDescending(r => r.RentDate).FirstOrDefault();
-            
-            if (result == null)
+            var result = _rentalDal.GetAll(r => r.CarId == rental.CarId && (r.ReturnDate == null || r.ReturnDate > DateTime.Now)).Any();
+
+            if (result)
             {
                 return new ErrorResult(Messages.Rentalİnvalid);
             }
