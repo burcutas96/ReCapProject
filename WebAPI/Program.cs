@@ -19,7 +19,10 @@ builder.Services.AddSingleton<IRentalService, RentalManager>();
 builder.Services.AddSingleton<IRentalDal, EfRentalDal>();
 builder.Services.AddSingleton<IColorService, ColorManager>();
 builder.Services.AddSingleton<IColorDal, EfColorDal>();
-
+builder.Services.AddSingleton<ICustomerService, CustomerManager>();
+builder.Services.AddSingleton<ICustomerDal, EfCustomerDal>();
+builder.Services.AddSingleton<IUserService, UserManager>();
+builder.Services.AddSingleton<IUserDal, EfUserDal>();
 
 var app = builder.Build();
 
