@@ -1,6 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcern.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -22,9 +23,10 @@ namespace Business.Concrete
             _brandDal = brandDal;
         }
 
+
+        [ValidationAspect(typeof(BrandValidator))]
         public IResult Add(Brand brand)
         {
-            ValidationTool.Validate(new BrandValidator(), brand);
 
             brand.Id = 0;
             _brandDal.Add(brand);
@@ -45,7 +47,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Brand>> GetAll()
         {
-            if (DateTime.Now.Hour == 18)
+            if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
             }
