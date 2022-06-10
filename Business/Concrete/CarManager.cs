@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcern.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,20 +23,19 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+
         public IResult Add(Car car)
         {
-            if (car.Description.Length >= 2 && car.DailyPrice > 0)
-            {
-                //car.Id sıfır yaptık çünkü veritabanında car.Id otomatik artırılarak ayarlandı. Eğer kullanıcı id girmeye çalışırsa onunla eklemeye çalışmasın,
-                //bilgisayarın kendi yaptığı id ile ekleme yapılsın.
-                car.Id = 0;
-                _carDal.Add(car);
-                return new SuccesResult(Messages.CarAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.CarNameİnvalid);
-            }
+
+            ValidationTool.Validate(new CarValidator(), car);
+
+            //car.Id sıfır yaptık çünkü veritabanında car.Id otomatik artırılarak
+            //ayarlandı. Eğer kullanıcı id girmeye çalışırsa onunla eklemeye çalışmasın,
+            //bilgisayarın kendi yaptığı id ile ekleme yapılsın.
+            car.Id = 0;
+            _carDal.Add(car);
+            return new SuccesResult(Messages.CarAdded);
+
         }
 
         public IResult Delete(Car car)
@@ -44,7 +46,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetAll()
         {
-            if(DateTime.Now.Hour == 4)
+            if (DateTime.Now.Hour == 4)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
@@ -83,7 +85,7 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return new SuccesDataResult<List<CarDetailDto>> (_carDal.GetCarDetails());
+            return new SuccesDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
     }
 }

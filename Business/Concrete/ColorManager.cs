@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcern.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,16 +24,12 @@ namespace Business.Concrete
 
         public IResult Add(Color color)
         {
-            if(color.Name.Length > 2)
-            {
-                color.Id = 0;
-                _colorDal.Add(color);
-                return new SuccesResult(Messages.ColorAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.ColorNameİnvalid);
-            }
+            ValidationTool.Validate(new ColorValidator(), color);
+
+            color.Id = 0;
+            _colorDal.Add(color);
+            return new SuccesResult(Messages.ColorAdded);
+
         }
 
         public IResult Delete(Color color)
@@ -47,7 +45,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Color>> GetAll()
         {
-            if(DateTime.Now.Hour == 19)
+            if (DateTime.Now.Hour == 19)
             {
                 return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
             }
@@ -55,7 +53,7 @@ namespace Business.Concrete
             {
                 return new SuccesDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
             }
-            
+
         }
 
         public IDataResult<Color> GetById(int id)

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcern.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,17 +23,13 @@ namespace Business.Concrete
 
         public IResult Add(User user)
         {
-            if(user.FirstName.Length > 2 && user.LastName.Length > 2)
-            {
-                user.Id = 0;
-                _userDal.Add(user);
-                return new SuccesResult(Messages.UserAdded);
-            }
-            else
-            {
-                return new ErrorResult(Messages.UserNameİnvalid);
-            }
-            
+            ValidationTool.Validate(new UserValidator(), user);
+
+            user.Id = 0;
+            _userDal.Add(user);
+            return new SuccesResult(Messages.UserAdded);
+
+
         }
 
         public IResult Delete(User user)
@@ -47,7 +45,7 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetAll()
         {
-            return new SuccesDataResult<List<User>>(_userDal.GetAll(),Messages.UsersListed);
+            return new SuccesDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
         }
 
         public IDataResult<User> GetById(int id)
