@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Business.Constants;
+using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcern.Validation;
@@ -33,19 +33,19 @@ namespace Business.Concrete
 
             if (result)
             {
-                return new ErrorResult(Messages.Rentalİnvalid);
+                return new ErrorResult(RentalMessages.Rentalİnvalid);
             }
             else
             {
                 _rentalDal.Add(rental);
-                return new SuccesResult(Messages.RentalAdded);
+                return new SuccesResult(RentalMessages.RentalAdded);
             }
         }
 
         public IResult Delete(Rental rental)
         {
             _rentalDal.Delete(rental);
-            return new SuccesResult(Messages.RentalDeleted);
+            return new SuccesResult(RentalMessages.RentalDeleted);
         }
 
         public IDataResult<Rental> Get(Rental rental)
@@ -55,7 +55,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccesDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
+            return new SuccesDataResult<List<Rental>>(_rentalDal.GetAll(), RentalMessages.RentalsListed);
         }
 
         public IDataResult<Rental> GetById(int id)
@@ -66,7 +66,7 @@ namespace Business.Concrete
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);
-            return new SuccesResult(Messages.RentalUpdated);
+            return new SuccesResult(RentalMessages.RentalUpdated);
         }
     }
 }

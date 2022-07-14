@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -62,34 +63,14 @@ static void UserManager()
     user1.FirstName = "Sema";
     user1.LastName = "Güneş";
     user1.Email = "semagunes@gmail.com";
-    user1.Password = "32659phr3";
 
     User user2 = new User();
     user2.Id = 17;
     user2.FirstName = "Sezer";
     user2.LastName = "Kanmaz";
     user2.Email = "duygudeniz@hotmail.com";
-    user2.Password = "96e74mhgd5a";
 
     userManager.Add(user1);
-    userManager.Delete(user1);
-    userManager.Update(user2);
-
-    Console.WriteLine(userManager.GetById(8).Data.FirstName + " " + userManager.GetById(8).Data.LastName); ;
-
-    var result = userManager.GetAll();
-
-    if (result.Success)
-    {
-        foreach (var user in result.Data)
-        {
-            Console.WriteLine(user.FirstName + " " + user.LastName);
-        }
-    }
-    else
-    {
-        Console.WriteLine(result.Message);
-    }
 
 }
 

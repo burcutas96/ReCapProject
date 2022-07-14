@@ -1,18 +1,12 @@
 ﻿using Business.Abstract;
-using Business.Constants;
+using Business.Aspects.Autofac;
+using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcern.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
-using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -25,6 +19,7 @@ namespace Business.Concrete
         }
 
 
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
@@ -33,26 +28,26 @@ namespace Business.Concrete
             //bilgisayarın kendi yaptığı id ile ekleme yapılsın.
             car.Id = 0;
             _carDal.Add(car);
-            return new SuccesResult(Messages.CarAdded);
+            return new SuccesResult(CarMessages.CarAdded);
 
         }
 
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
-            return new SuccesResult(Messages.CarDeleted);
+            return new SuccesResult(CarMessages.CarDeleted);
         }
 
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.Hour == 4)
             {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<Car>>(AppMessages.MaintenanceTime);
             }
             else
             {
                 Console.WriteLine("------Tüm arabalar------");
-                return new SuccesDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
+                return new SuccesDataResult<List<Car>>(_carDal.GetAll(), CarMessages.CarsListed);
             }
         }
 
@@ -74,7 +69,7 @@ namespace Business.Concrete
         public IResult Update(Car car)
         {
             _carDal.Update(car);
-            return new SuccesResult(Messages.CarUpdated);
+            return new SuccesResult(CarMessages.CarUpdated);
         }
 
         public IDataResult<Car> GetById(int id)

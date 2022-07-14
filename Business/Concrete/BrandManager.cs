@@ -1,16 +1,10 @@
 ﻿using Business.Abstract;
-using Business.Constants;
+using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
-using Core.CrossCuttingConcern.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Business.Concrete
 {
@@ -30,14 +24,14 @@ namespace Business.Concrete
 
             brand.Id = 0;
             _brandDal.Add(brand);
-            return new SuccesResult(Messages.BrandAdded);
+            return new SuccesResult(BrandMessages.BrandAdded);
 
         }
 
         public IResult Delete(Brand brand)
         {
             _brandDal.Delete(brand);
-            return new SuccesResult(Messages.BrandDeleted);
+            return new SuccesResult(BrandMessages.BrandDeleted);
         }
 
         public IDataResult<Brand> Get(Brand brand)
@@ -49,7 +43,7 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 22)
             {
-                return new ErrorDataResult<List<Brand>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<Brand>>(AppMessages.MaintenanceTime);
             }
             else
             {
@@ -66,7 +60,7 @@ namespace Business.Concrete
         public IResult Update(Brand brand)
         {
             _brandDal.Update(brand);
-            return new SuccesResult(Messages.BrandUpdated);
+            return new SuccesResult(BrandMessages.BrandUpdated);
         }
     }
 }

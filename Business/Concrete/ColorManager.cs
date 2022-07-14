@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Business.Constants;
+using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcern.Validation;
@@ -30,14 +30,14 @@ namespace Business.Concrete
 
             color.Id = 0;
             _colorDal.Add(color);
-            return new SuccesResult(Messages.ColorAdded);
+            return new SuccesResult(ColorMessages.ColorAdded);
 
         }
 
         public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
-            return new SuccesResult(Messages.ColorDeleted);
+            return new SuccesResult(ColorMessages.ColorDeleted);
         }
 
         public IDataResult<Color> Get(Color color)
@@ -49,11 +49,11 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 19)
             {
-                return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<Color>>(AppMessages.MaintenanceTime);
             }
             else
             {
-                return new SuccesDataResult<List<Color>>(_colorDal.GetAll(), Messages.ColorsListed);
+                return new SuccesDataResult<List<Color>>(_colorDal.GetAll(), ColorMessages.ColorsListed);
             }
 
         }
@@ -66,7 +66,7 @@ namespace Business.Concrete
         public IResult Update(Color color)
         {
             _colorDal.Update(color);
-            return new SuccesResult(Messages.CarUpdated);
+            return new SuccesResult(ColorMessages.ColorUpdated);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Business.Abstract;
-using Business.Constants;
+using Business.Constants.Messages;
 using Business.ValidationRules.FluentValidation;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcern.Validation;
@@ -30,14 +30,14 @@ namespace Business.Concrete
 
             customer.Id = 0;
             _customerDal.Add(customer);
-            return new SuccesResult(Messages.CustomerAdded);
+            return new SuccesResult(CustomerMessages.CustomerAdded);
 
         }
 
         public IResult Delete(Customer customer)
         {
             _customerDal.Delete(customer);
-            return new SuccesResult(Messages.CustomerDeleted);
+            return new SuccesResult(CustomerMessages.CustomerDeleted);
         }
 
         public IDataResult<Customer> Get(Customer customer)
@@ -49,11 +49,11 @@ namespace Business.Concrete
         {
             if (DateTime.Now.Hour == 13)
             {
-                return new ErrorDataResult<List<Customer>>(Messages.MaintenanceTime);
+                return new ErrorDataResult<List<Customer>>(AppMessages.MaintenanceTime);
             }
             else
             {
-                return new SuccesDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
+                return new SuccesDataResult<List<Customer>>(_customerDal.GetAll(), CustomerMessages.CustomersListed);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Business.Concrete
         public IResult Update(Customer customer)
         {
             _customerDal.Update(customer);
-            return new SuccesResult(Messages.CustomerUpdated);
+            return new SuccesResult(CustomerMessages.CustomerUpdated);
         }
     }
 }
